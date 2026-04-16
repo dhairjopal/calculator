@@ -1,116 +1,77 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <!-- 🔝 HEADER -->
+    <q-header elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>
-          Quasar App
+        <q-toolbar-title class="row items-center">
+          <q-icon name="calculate" size="28px" />
+          <span class="q-ml-sm">Calculator</span>
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+
+
+
+<!-- MODE SWITCH -->
+<q-btn-toggle
+  v-model="mode"
+  dense
+  unelevated
+  toggle-color="green"
+  color="white"
+  text-color="primary"
+  :options="[
+    { label: 'Basic', value: 'basic', to: '/home' },
+    { label: 'Sci', value: 'sci', to: '/scientific' },
+    { label: 'Graph', value: 'graph', to: '/logo' }
+  ]"
+
+
+        />
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <!-- 📂 DRAWER -->
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+        <q-item-label header> ⚙️ Settings </q-item-label>
+        <q-item clickable v-ripple to="/history">
+          <q-item-section avatar><q-icon name="history" /></q-item-section>
+          <q-item-section>History</q-item-section>
+        </q-item>
 
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item clickable v-ripple to="/about">
+          <q-item-section avatar><q-icon name="info" /></q-item-section>
+          <q-item-section>About App</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
+    <!-- PAGE -->
     <q-page-container>
-      <router-view />
+      <router-view :mode="mode" />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: "MainLayout",
 
-  components: {
-    EssentialLink
-  },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
+  setup() {
+    const leftDrawerOpen = ref(false);
+    const mode = ref("basic");
 
     return {
-      linksList,
       leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
+      mode,
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+    };
+  },
+});
 </script>

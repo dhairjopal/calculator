@@ -74,7 +74,18 @@ export default defineConfig((ctx) => {
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-file#framework
     framework: {
-      config: {},
+      plugins: [
+        "Notify",
+        "Dialog",
+        "Loading",
+        "LocalStorage",
+      ],
+      config: {
+          notify: true,
+          dialog: true,
+          loading: true,
+          localStorage: true,
+      },
 
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
@@ -87,7 +98,6 @@ export default defineConfig((ctx) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
     },
 
     // animations: 'all', // --- includes all animations
@@ -112,6 +122,8 @@ export default defineConfig((ctx) => {
     ssr: {
       prodPort: 3000, // The default port that the production server should use
                       // (gets superseded if process.env.PORT is specified at runtime)
+
+
 
       middlewares: [
         'render' // keep this as last one
